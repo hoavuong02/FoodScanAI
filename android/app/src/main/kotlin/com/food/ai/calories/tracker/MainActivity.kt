@@ -5,10 +5,13 @@ import io.flutter.embedding.android.FlutterActivity
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import io.flutter.embedding.engine.FlutterEngine
+
 
 
 class MainActivity : FlutterActivity() {
@@ -39,6 +42,16 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Optimize surface handling
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+        )
+    }
+
     @SuppressLint("NewApi")
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -63,5 +76,4 @@ class MainActivity : FlutterActivity() {
             }
         }
     }
-
 }
