@@ -26,6 +26,8 @@ class _DailyIntakePageState extends State<DailyIntakePage> {
       name: "",
       gender: "",
       age: 0,
+      height: 0,
+      weight: 0,
       energy: 2200,
       protein: 50,
       carbohydrate: 280,

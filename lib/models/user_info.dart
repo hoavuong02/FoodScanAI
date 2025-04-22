@@ -2,6 +2,8 @@ class UserInfo {
   final String name;
   final String gender;
   final int age;
+  final int height;
+  final int weight;
   final double energy;
   final double protein;
   final double carbohydrate;
@@ -12,6 +14,8 @@ class UserInfo {
     required this.name,
     required this.gender,
     required this.age,
+    required this.height,
+    required this.weight,
     required this.energy,
     required this.protein,
     required this.carbohydrate,
@@ -23,6 +27,8 @@ class UserInfo {
         'name': name,
         'gender': gender,
         'age': age,
+        'height': height,
+        'weight': weight,
         'energy': energy,
         'protein': protein,
         'carbohydrate': carbohydrate,
@@ -34,6 +40,8 @@ class UserInfo {
         name: json['name'],
         gender: json['gender'],
         age: json['age'],
+        height: json['height'],
+        weight: json['weight'],
         energy: json['energy'].toDouble(),
         protein: json['protein'].toDouble(),
         carbohydrate: json['carbohydrate'].toDouble(),

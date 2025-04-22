@@ -20,6 +20,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
   final _nameController = TextEditingController();
   String _selectedGender = '';
   final _ageController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
   final _energyController = TextEditingController();
   final _proteinController = TextEditingController();
   final _carbonHydrateController = TextEditingController();
@@ -32,6 +34,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
     _formValidNotifier.value = _nameController.text.isNotEmpty &&
         _selectedGender.isNotEmpty &&
         _ageController.text.isNotEmpty &&
+        _heightController.text.isNotEmpty &&
+        _weightController.text.isNotEmpty &&
         _energyController.text.isNotEmpty &&
         _proteinController.text.isNotEmpty &&
         _carbonHydrateController.text.isNotEmpty &&
@@ -42,8 +46,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   void initState() {
     super.initState();
+
     _nameController.addListener(_updateFormValidation);
-    _ageController.addListener(_updateFormValidation);
+    _ageController.addListener(() {
+      _updateFormValidation();
+      _calculateDailyNutrients();
+    });
+    _heightController.addListener(() {
+      _updateFormValidation();
+      _calculateDailyNutrients();
+    });
+    _weightController.addListener(() {
+      _updateFormValidation();
+      _calculateDailyNutrients();
+    });
+
     _energyController.addListener(_updateFormValidation);
     _proteinController.addListener(_updateFormValidation);
     _carbonHydrateController.addListener(_updateFormValidation);
@@ -52,24 +69,33 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   void _calculateDailyNutrients() {
-    if (_selectedGender.isNotEmpty && _ageController.text.isNotEmpty) {
+    if (_selectedGender.isNotEmpty &&
+        _ageController.text.isNotEmpty &&
+        _heightController.text.isNotEmpty &&
+        _weightController.text.isNotEmpty) {
       final age = int.tryParse(_ageController.text) ?? 0;
+      final height = double.tryParse(_heightController.text) ?? 0;
+      final weight = double.tryParse(_weightController.text) ?? 0;
 
-      // Base values
-      double calories;
+      // Harris-Benedict BMR Formula
+      double bmr;
       if (_selectedGender == 'Male') {
-        calories = age < 30 ? 2700 : (age < 50 ? 2600 : 2400);
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
       } else {
-        calories = age < 30 ? 2200 : (age < 50 ? 2000 : 1800);
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
       }
 
-      // Calculate other nutrients based on calories
-      double protein = calories * 0.15 / 4; // 15% of calories, 4 cal per gram
-      double carbs = calories * 0.55 / 4; // 55% of calories, 4 cal per gram
-      double fat = calories * 0.30 / 9; // 30% of calories, 9 cal per gram
+      // Activity factor (moderate activity = 1.55)
+      double calories = bmr * 1.55;
+
+      // Calculate macronutrients based on calories
+      double protein = weight * 2.2; // 2.2g per kg of body weight
+      double fat = (calories * 0.25) / 9; // 25% of calories
+      double carbs =
+          (calories - (protein * 4 + fat * 9)) / 4; // Remaining calories
       double fiber = calories / 1000 * 14; // 14g per 1000 calories
 
-      // Only set values if fields are empty
+      // Update controllers if empty
       if (_energyController.text.isEmpty) {
         _energyController.text = calories.round().toString();
       }
@@ -141,6 +167,28 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField(
+                      label: 'Height',
+                      controller: _heightController,
+                      textAlign: TextAlign.center,
+                      hintText: "cm",
+                      keyboardType: TextInputType.number),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: _buildTextField(
+                      label: 'Weight',
+                      controller: _weightController,
+                      textAlign: TextAlign.center,
+                      hintText: "kg",
+                      keyboardType: TextInputType.number),
+                ),
+              ],
+            ),
             const SizedBox(height: 32),
             const TitleSectionWidget(
               title: 'Daily Target',
@@ -150,6 +198,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             _buildNutrientInputs(),
             const SizedBox(height: 8),
             _buildContinueButton(),
+            const SizedBox(height: 50),
           ],
         ),
       ),
@@ -164,11 +213,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
       String? hintText,
       Color? backgroundIconColor,
       String? icon}) {
-    if (label == 'Age') {
-      controller.addListener(() {
-        _calculateDailyNutrients();
-      });
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -328,8 +372,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
-        mainAxisSpacing: 0,
-        childAspectRatio: 1.7,
+        mainAxisSpacing: 16,
+        childAspectRatio: 2,
       ),
       itemCount: nutrients.length,
       itemBuilder: (context, index) {
@@ -382,6 +426,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
       name: _nameController.text,
       gender: _selectedGender,
       age: int.parse(_ageController.text),
+      height: int.parse(_heightController.text),
+      weight: int.parse(_weightController.text),
       energy: double.parse(_energyController.text),
       protein: double.parse(_proteinController.text),
       carbohydrate: double.parse(_carbonHydrateController.text),
@@ -406,6 +452,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
     _formValidNotifier.dispose();
     _nameController.dispose();
     _ageController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
+    _proteinController.dispose();
     _energyController.dispose();
     _carbonHydrateController.dispose();
     _fatController.dispose();
