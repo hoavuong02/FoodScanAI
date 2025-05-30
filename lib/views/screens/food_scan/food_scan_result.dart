@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/models/id_ads_model.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/daily_intake_view_model.dart';
 import 'package:read_the_label/viewmodels/meal_analysis_view_model.dart';
 import 'package:read_the_label/viewmodels/ui_view_model.dart';
@@ -43,111 +47,134 @@ class _FoodScanResultPageState extends State<FoodScanResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PrimaryAppBar(title: "Result"),
-      body: Consumer3<UiViewModel, MealAnalysisViewModel, DailyIntakeViewModel>(
-        builder: (context, uiProvider, mealAnalysisProvider,
-            dailyIntakeProvider, _) {
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 2 / 3,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                            image: FileImage(mealAnalysisProvider.foodImage!)),
-                      ),
-                      Positioned.fill(
-                        child: CustomPaint(
-                          painter: CornerPainter(
-                            radius: 20,
-                            color: Theme.of(context).scaffoldBackgroundColor,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          showInterAds(
+            placement: AdPlacement.interBack,
+            function: () {
+              Navigator.pop(context);
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: PrimaryAppBar(
+          title: "result".tr(),
+          showInterBack: true,
+        ),
+        body:
+            Consumer3<UiViewModel, MealAnalysisViewModel, DailyIntakeViewModel>(
+          builder: (context, uiProvider, mealAnalysisProvider,
+              dailyIntakeProvider, _) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 1 / 3,
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image:
+                                  FileImage(mealAnalysisProvider.foodImage!)),
+                        ),
+                        Positioned.fill(
+                          child: CustomPaint(
+                            painter: CornerPainter(
+                              radius: 20,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
                           ),
                         ),
-                      ),
-                      if (uiProvider.loading)
-                        const Positioned.fill(
-                          left: 5,
-                          right: 5,
-                          top: 5,
-                          bottom: 5,
-                          child: rive.RiveAnimation.asset(
-                            'assets/riveAssets/qr_code_scanner.riv',
-                            fit: BoxFit.fill,
-                            artboard: 'scan_board',
-                            animations: ['anim1'],
-                            stateMachines: ['State Machine 1'],
-                          ),
-                        )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                if (uiProvider.loading)
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FoodItemCardShimmer(),
-                      FoodItemCardShimmer(),
-                      TotalNutrientsCardShimmer(),
-                    ],
-                  ),
-                if (mealAnalysisProvider.foodImage != null &&
-                    mealAnalysisProvider.analyzedFoodItems.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const TitleSectionWidget(
-                        title: "Analysis Results",
-                      ),
-                      ...mealAnalysisProvider.analyzedFoodItems
-                          .asMap()
-                          .entries
-                          .map((entry) => FoodItemCard(
-                                item: entry.value,
-                                index: entry.key,
-                              )),
-                      const TitleSectionWidget(
-                        title: "Total Nutrients",
-                      ),
-                      const TotalNutrientsCard(),
-                      const SizedBox(height: 16),
-                      FoodScanAddToTodayIntakeButton(
-                        uiProvider: uiProvider,
-                        dailyIntakeProvider: dailyIntakeProvider,
-                        productName: mealAnalysisProvider.mealName,
-                        totalPlateNutrients:
-                            mealAnalysisProvider.totalPlateNutrients,
-                        imageFile: mealAnalysisProvider.foodImage,
-                      ),
-                      const SizedBox(height: 8),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => AskAiPage(
-                                mealName: mealAnalysisProvider.mealName,
-                                foodImage: mealAnalysisProvider.foodImage!,
-                              ),
+                        if (uiProvider.loading)
+                          const Positioned.fill(
+                            left: 5,
+                            right: 5,
+                            top: 5,
+                            bottom: 5,
+                            child: rive.RiveAnimation.asset(
+                              'assets/riveAssets/qr_code_scanner.riv',
+                              fit: BoxFit.fill,
+                              artboard: 'scan_board',
+                              animations: ['anim1'],
+                              stateMachines: ['State Machine 1'],
                             ),
-                          );
-                        },
-                        child: const AskAiWidget(),
-                      ),
-                    ],
+                          )
+                      ],
+                    ),
                   ),
-              ],
-            ),
-          );
-        },
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  if (uiProvider.loading)
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FoodItemCardShimmer(),
+                        FoodItemCardShimmer(),
+                        TotalNutrientsCardShimmer(),
+                      ],
+                    ),
+                  if (mealAnalysisProvider.foodImage != null &&
+                      mealAnalysisProvider.analyzedFoodItems.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TitleSectionWidget(
+                          title: "analysis_results".tr(),
+                        ),
+                        ...mealAnalysisProvider.analyzedFoodItems
+                            .asMap()
+                            .entries
+                            .map((entry) => FoodItemCard(
+                                  item: entry.value,
+                                  index: entry.key,
+                                )),
+                        const SizedBox(height: 8),
+                        if (AdsConfig.getStatusAds(AdPlacement.nativeResult))
+                          const MexaNativeAd(
+                              placement: AdPlacement.nativeResult),
+                        const SizedBox(height: 8),
+                        TitleSectionWidget(
+                          title: "total_nutrients".tr(),
+                        ),
+                        const TotalNutrientsCard(),
+                        const SizedBox(height: 16),
+                        FoodScanAddToTodayIntakeButton(
+                          uiProvider: uiProvider,
+                          dailyIntakeProvider: dailyIntakeProvider,
+                          productName: mealAnalysisProvider.mealName,
+                          totalPlateNutrients:
+                              mealAnalysisProvider.totalPlateNutrients,
+                          imageFile: mealAnalysisProvider.foodImage,
+                        ),
+                        const SizedBox(height: 8),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => AskAiPage(
+                                  mealName: mealAnalysisProvider.mealName,
+                                  foodImage: mealAnalysisProvider.foodImage!,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const AskAiWidget(),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -195,7 +222,7 @@ class FoodScanAddToTodayIntakeButton extends StatelessWidget {
         uiProvider.updateCurrentIndex(2);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Added to today\'s intake!'),
+            content: Text('added_to_today_intake'.tr()),
             action: SnackBarAction(
               label: 'VIEW',
               onPressed: () {
@@ -217,7 +244,7 @@ class FoodScanAddToTodayIntakeButton extends StatelessWidget {
           Column(
             children: [
               Text(
-                "Add to today's intake",
+                "added_to_today_intake".tr(),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

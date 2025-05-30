@@ -1,0 +1,24 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_349_6847)">
+<path d="M28.125 0H7.875C3.52575 0 0 3.52575 0 7.875V28.125C0 32.4743 3.52575 36 7.875 36H28.125C32.4743 36 36 32.4743 36 28.125V7.875C36 3.52575 32.4743 0 28.125 0Z" fill="#F5F5F5"/>
+<path d="M36 16.1379H19.8621V0H16.1379V16.1379H0V19.8621H16.1379V36H19.8621V19.8621H36V16.1379Z" fill="#FF4B55"/>
+<path d="M-6 31V5L-3 0H12L18 1L24 0H39L42 5V31L39 36H24L18 35L12 36H-3L-6 31Z" fill="#0053B5"/>
+<path d="M-6 12H42V24H-6V12Z" fill="white"/>
+<path d="M-6 14H42V22H-6V14Z" fill="#D80027"/>
+<path d="M12 0H24V36H12V0Z" fill="white"/>
+<path d="M14 0H22V36H14V0Z" fill="#D80027"/>
+<path d="M42 0H39L24 10V13L32 12L42 5V0Z" fill="white"/>
+<path d="M42 0L24 12H29L42 3V0Z" fill="#D80027"/>
+<path d="M-6 0H-3L12 10V13L4 12L-6 5V0Z" fill="white"/>
+<path d="M-6 0L12 12H7L-6 3V0Z" fill="#D80027"/>
+<path d="M-6 36H-3L12 26V23L4 24L-6 31V36Z" fill="white"/>
+<path d="M-6 36L12 24H7L-6 33V36Z" fill="#D80027"/>
+<path d="M42 36H39L24 26V23L32 24L42 31V36Z" fill="white"/>
+<path d="M42 36L24 24H29L42 33V36Z" fill="#D80027"/>
+</g>
+<defs>
+<clipPath id="clip0_349_6847">
+<rect width="36" height="36" rx="8" fill="white"/>
+</clipPath>
+</defs>
+</svg>

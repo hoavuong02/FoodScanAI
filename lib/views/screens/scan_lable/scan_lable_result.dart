@@ -1,9 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
+import 'package:read_the_label/models/id_ads_model.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/views/screens/ai_chat/ask_AI_page.dart';
 import 'package:read_the_label/views/widgets/title_section_widget.dart';
 import 'package:rive/rive.dart' as rive;
@@ -46,61 +50,75 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PrimaryAppBar(
-        title: "Result",
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Consumer3<UiViewModel, ProductAnalysisViewModel,
-                DailyIntakeViewModel>(
-            builder: (context, uiProvider, productAnalysisProvider,
-                dailyIntakeProvider, _) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 2 / 3,
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image(
-                          image:
-                              FileImage(productAnalysisProvider.frontImage!)),
-                    ),
-                    Positioned.fill(
-                      child: CustomPaint(
-                        painter: CornerPainter(
-                          radius: 20,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          showInterAds(
+            placement: AdPlacement.interBack,
+            function: () {
+              Navigator.pop(context);
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: PrimaryAppBar(
+          title: "result".tr(),
+          showInterBack: true,
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Consumer3<UiViewModel, ProductAnalysisViewModel,
+                  DailyIntakeViewModel>(
+              builder: (context, uiProvider, productAnalysisProvider,
+                  dailyIntakeProvider, _) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 1 / 3,
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image(
+                            image:
+                                FileImage(productAnalysisProvider.frontImage!)),
+                      ),
+                      Positioned.fill(
+                        child: CustomPaint(
+                          painter: CornerPainter(
+                            radius: 20,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
                         ),
                       ),
-                    ),
-                    if (uiProvider.loading)
-                      const Positioned.fill(
-                        left: 5,
-                        right: 5,
-                        top: 5,
-                        bottom: 5,
-                        child: rive.RiveAnimation.asset(
-                          'assets/riveAssets/qr_code_scanner.riv',
-                          fit: BoxFit.fill,
-                          artboard: 'scan_board',
-                          animations: ['anim1'],
-                          stateMachines: ['State Machine 1'],
-                        ),
-                      )
-                  ],
+                      if (uiProvider.loading)
+                        const Positioned.fill(
+                          left: 5,
+                          right: 5,
+                          top: 5,
+                          bottom: 5,
+                          child: rive.RiveAnimation.asset(
+                            'assets/riveAssets/qr_code_scanner.riv',
+                            fit: BoxFit.fill,
+                            artboard: 'scan_board',
+                            animations: ['anim1'],
+                            stateMachines: ['State Machine 1'],
+                          ),
+                        )
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              buildFoodInfomation(
-                  uiProvider, productAnalysisProvider, dailyIntakeProvider)
-            ],
-          );
-        }),
+                const SizedBox(height: 32),
+                buildFoodInfomation(
+                    uiProvider, productAnalysisProvider, dailyIntakeProvider)
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -131,8 +149,8 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const TitleSectionWidget(
-                  title: "Optimal Nutrients",
+                TitleSectionWidget(
+                  title: "optimal_nutrients".tr(),
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -155,14 +173,17 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
               ],
             ),
           const SizedBox(height: 8),
+          if (AdsConfig.getStatusAds(AdPlacement.nativeResult))
+            const MexaNativeAd(placement: AdPlacement.nativeResult),
+          const SizedBox(height: 8),
           //Bad nutrients
           if (productAnalysisProvider.getBadNutrients().isNotEmpty)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleSectionWidget(
-                  title: "Watch Out",
-                  color: Color(0xFFFF5252),
+                TitleSectionWidget(
+                  title: "watch_out".tr(),
+                  color: const Color(0xFFFF5252),
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -187,8 +208,8 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
           const SizedBox(height: 8),
           if (productAnalysisProvider.nutritionAnalysis['primary_concerns'] !=
               null)
-            const TitleSectionWidget(
-              title: "Recommendations",
+            TitleSectionWidget(
+              title: "recommendations".tr(),
             ),
 
           if (productAnalysisProvider.nutritionAnalysis['primary_concerns'] !=
@@ -217,7 +238,7 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                   Row(
                     children: [
                       Text(
-                        "Serving Size: ${uiProvider.servingSize.round()} g",
+                        "${"serving_size".tr()}: ${uiProvider.servingSize.round()} g",
                         style: TextStyle(
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                             fontSize: 14,
@@ -234,7 +255,7 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "How much did you consume?",
+                      "how_much_did_you_consume".tr(),
                       style: TextStyle(
                           color: Theme.of(context).textTheme.bodyMedium!.color,
                           fontSize: 14,
@@ -327,9 +348,9 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Edit Serving Size',
-                style: TextStyle(
+              Text(
+                'edit_serving_size'.tr(),
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
@@ -341,7 +362,7 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                 controller: controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: 'Enter serving size in grams',
+                  hintText: 'enter_serving_size_in_grams'.tr(),
                   hintStyle: const TextStyle(
                     color: Color(0xff6B6B6B),
                     fontSize: 12,
@@ -372,9 +393,9 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
+                    child: Text(
+                      'cancel'.tr(),
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -398,10 +419,10 @@ class _ScanLableResultPageState extends State<ScanLableResultPage> {
                       double? newSize = double.tryParse(controller.text);
                       if (newSize != null && newSize <= 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text(
-                              'Serving size must be greater than 0',
-                              style: TextStyle(fontFamily: 'Poppins'),
+                              'serving_size_must_be_greater_than_0'.tr(),
+                              style: const TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
                         );
@@ -461,8 +482,8 @@ class ScanLableAddToTodayIntakeButton extends StatelessWidget {
       onPressed: () {
         if (uiProvider.sliderValue == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please select your consumption to continue'),
+            SnackBar(
+              content: Text('please_select_your_consumption'.tr()),
             ),
           );
         } else {
@@ -478,7 +499,7 @@ class ScanLableAddToTodayIntakeButton extends StatelessWidget {
           uiProvider.updateCurrentIndex(2);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Added to today\'s intake!'),
+              content: Text("added_to_today_intake".tr()),
               action: SnackBarAction(
                 label: 'VIEW',
                 onPressed: () {
@@ -501,7 +522,7 @@ class ScanLableAddToTodayIntakeButton extends StatelessWidget {
           Column(
             children: [
               Text(
-                "Add to today's intake",
+                "added_to_today_intake".tr(),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

@@ -4,7 +4,8 @@ import 'package:read_the_label/views/common/primary_svg_picture.dart';
 import 'package:read_the_label/views/screens/setting/setting_screen.dart';
 
 class LogoAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const LogoAppbar({super.key});
+  final List<Widget>? action;
+  const LogoAppbar({super.key, this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -46,23 +47,24 @@ class LogoAppbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          icon: PrimarySvgPicture(
-            Assets.icons.icSetting.path,
-            width: 24,
-            height: 24,
-          ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingScreen(),
-                ));
-          },
-        ),
-        const SizedBox(width: 8),
-      ],
+      actions: action ??
+          [
+            IconButton(
+              icon: PrimarySvgPicture(
+                Assets.icons.icSetting.path,
+                width: 24,
+                height: 24,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingScreen(),
+                    ));
+              },
+            ),
+            const SizedBox(width: 8),
+          ],
     );
   }
 

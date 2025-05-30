@@ -39,7 +39,7 @@ dependencies:
   image_picker: ^1.1.2
   shared_preferences: ^2.3.3
   percent_indicator: ^4.2.4
-  intl: ^0.20.1
+  intl: "0.19.0"
   rive: ^0.13.20
   flutter_launcher_icons: ^0.14.2
   shimmer: ^3.0.0
@@ -59,6 +59,11 @@ dependencies:
   firebase_analytics: "11.4.2"
   firebase_core: "3.11.0"
   firebase_crashlytics: "4.3.2"
+  lottie: "3.0.0"
+  easy_localization: "3.0.7"
+  floating_draggable_widget: "2.3.0"
+  mexa_ads:
+    path: mexa_ads
 
 flutter_launcher_icons:
   android: true
@@ -100,8 +105,11 @@ flutter:
     - assets/fonts/
     - assets/icons/
     - assets/images/
+    - assets/animations/
+    - assets/translations/
     - assets/riveAssets/ai_generate_loading.riv
     - assets/riveAssets/qr_code_scanner.riv
+    - assets/ad_config.json
 
   fonts:
     - family: Poppins

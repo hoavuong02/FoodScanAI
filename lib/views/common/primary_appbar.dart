@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -10,6 +12,8 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final TextStyle? style;
   final bool? centerTitle;
+  final bool showInterBack;
+
   const PrimaryAppBar(
       {super.key,
       this.title,
@@ -18,7 +22,8 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leading,
       this.useDefaultLeading = true,
       this.style,
-      this.centerTitle = true});
+      this.centerTitle = true,
+      this.showInterBack = false});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,16 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (useDefaultLeading) {
         return IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              if (showInterBack) {
+                showInterAds(
+                  placement: AdPlacement.interBack,
+                  function: () {
+                    Navigator.pop(context);
+                  },
+                );
+              } else {
+                Navigator.pop(context);
+              }
             },
             icon: SvgPicture.asset(Assets.icons.icBack.path));
       } else {

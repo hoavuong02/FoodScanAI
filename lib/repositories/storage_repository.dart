@@ -103,6 +103,14 @@ class StorageRepository implements StorageRepositoryInterface {
     _prefs.setString('user_info', jsonEncode(userInfo.toJson()));
   }
 
+  bool isShowLanguage() {
+    return _prefs.getBool('show_language') ?? false;
+  }
+
+  void setShowLanguage() {
+    _prefs.setBool('show_language', true);
+  }
+
   bool isShowOnboarding() {
     return _prefs.getBool('show_onboarding') ?? false;
   }

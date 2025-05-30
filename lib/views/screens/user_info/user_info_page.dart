@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mexa_ads/mexa_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/models/id_ads_model.dart';
 import 'package:read_the_label/models/user_info.dart';
 import 'package:read_the_label/repositories/storage_repository.dart';
 import 'package:read_the_label/theme/app_colors.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/views/common/logo_appbar.dart';
 import 'package:read_the_label/views/common/primary_svg_picture.dart';
 import 'package:read_the_label/views/screens/home/home_page.dart';
@@ -117,90 +121,102 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const LogoAppbar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TitleSectionWidget(
-              title: 'User Information',
-              padding: EdgeInsets.zero,
-            ),
-            const SizedBox(height: 20),
-            _buildTextField(
-                label: 'Your Name',
-                controller: _nameController,
-                hintText: "Enter your name"),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      resizeToAvoidBottomInset: false,
+      appBar: LogoAppbar(
+        action: [_buildContinueButton()],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TitleSectionWidget(
+                    title: 'User Information',
+                    padding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildTextField(
+                      label: 'Your Name',
+                      controller: _nameController,
+                      hintText: "Enter your name"),
+                  const SizedBox(height: 20),
+                  Row(
                     children: [
-                      const Text(
-                        'Gender',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                          fontFamily: 'Poppins',
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Gender',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                _buildGenderButton('Male'),
+                                _buildGenderButton('Female'),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          _buildGenderButton('Male'),
-                          _buildGenderButton('Female'),
-                        ],
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildTextField(
+                            label: 'Age',
+                            controller: _ageController,
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: _buildTextField(
-                      label: 'Age',
-                      controller: _ageController,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextField(
+                            label: 'Height',
+                            controller: _heightController,
+                            textAlign: TextAlign.center,
+                            hintText: "cm",
+                            keyboardType: TextInputType.number),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildTextField(
+                            label: 'Weight',
+                            controller: _weightController,
+                            textAlign: TextAlign.center,
+                            hintText: "kg",
+                            keyboardType: TextInputType.number),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  const TitleSectionWidget(
+                    title: 'Daily Target',
+                    padding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: 32),
+                  _buildNutrientInputs(),
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildTextField(
-                      label: 'Height',
-                      controller: _heightController,
-                      textAlign: TextAlign.center,
-                      hintText: "cm",
-                      keyboardType: TextInputType.number),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: _buildTextField(
-                      label: 'Weight',
-                      controller: _weightController,
-                      textAlign: TextAlign.center,
-                      hintText: "kg",
-                      keyboardType: TextInputType.number),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            const TitleSectionWidget(
-              title: 'Daily Target',
-              padding: EdgeInsets.zero,
-            ),
-            const SizedBox(height: 32),
-            _buildNutrientInputs(),
-            const SizedBox(height: 8),
-            _buildContinueButton(),
-            const SizedBox(height: 50),
-          ],
-        ),
+          ),
+          if (AdsConfig.getStatusAds(AdPlacement.nativeUserInfo))
+            const MexaNativeAd(
+              placement: AdPlacement.nativeUserInfo,
+              layout: NativeAdSize.noMedia2,
+            )
+        ],
       ),
     );
   }
@@ -398,9 +414,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
         return GestureDetector(
           onTap: isValid ? _saveUserInfo : null,
           child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            margin: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               color: isValid ? AppColors.green : AppColors.grey,
               borderRadius: BorderRadius.circular(30),
@@ -410,7 +425,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),

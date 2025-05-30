@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/meal_analysis_view_model.dart';
 import 'package:read_the_label/views/common/primary_button.dart';
 import 'package:read_the_label/views/screens/food_scan/food_scan_result.dart';
@@ -28,7 +31,7 @@ class FoodScanPage extends StatelessWidget {
           ),
           const SizedBox(height: 48),
           Text(
-            "Snap a picture of your meal or pick one from your gallery",
+            "snap_a_picture_of_your_meal_or_pick_one_from_your_gallery".tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -39,7 +42,7 @@ class FoodScanPage extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           PrimaryButton(
-            text: 'Take Photo',
+            text: 'take_photo'.tr(),
             onPressed: () =>
                 _handleFoodImageCapture(context, ImageSource.camera),
             iconPath: Assets.icons.icCamera.path,
@@ -50,7 +53,7 @@ class FoodScanPage extends StatelessWidget {
           const SizedBox(height: 16),
           PrimaryButton(
             width: 240,
-            text: 'Gallery',
+            text: 'gallery'.tr(),
             onPressed: () =>
                 _handleFoodImageCapture(context, ImageSource.gallery),
             iconPath: Assets.icons.icGallery.path,
@@ -72,11 +75,16 @@ class FoodScanPage extends StatelessWidget {
     if (image != null) {
       mealAnalysisProvider.setFoodImage(File(image.path));
       if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const FoodScanResultPage(),
-          ),
+        showInterAds(
+          placement: AdPlacement.interScanDone,
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const FoodScanResultPage(),
+              ),
+            );
+          },
         );
       }
     }

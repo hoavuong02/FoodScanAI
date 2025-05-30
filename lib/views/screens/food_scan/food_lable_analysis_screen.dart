@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
@@ -35,7 +36,7 @@ class FoodLableAnalysisScreenState extends State<FoodLableAnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PrimaryAppBar(title: "Result"),
+      appBar: PrimaryAppBar(title: "result".tr()),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -61,8 +62,8 @@ class FoodLableAnalysisScreenState extends State<FoodLableAnalysisScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const TitleSectionWidget(
-                          title: "Analysis Results",
+                        TitleSectionWidget(
+                          title: "analysis_results".tr(),
                         ),
                         const SizedBox(height: 16),
                         ...mealViewModel.analyzedFoodItems
@@ -72,8 +73,8 @@ class FoodLableAnalysisScreenState extends State<FoodLableAnalysisScreen> {
                                   item: entry.value,
                                   index: entry.key,
                                 )),
-                        const TitleSectionWidget(
-                          title: "Total Nutrients",
+                        TitleSectionWidget(
+                          title: "total_nutrients".tr(),
                         ),
                         const TotalNutrientsCard(),
                         const SizedBox(
@@ -105,7 +106,7 @@ class FoodLableAnalysisScreenState extends State<FoodLableAnalysisScreen> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'No food items analyzed yet',
+                              'no_food_items_analyzed_yet'.tr(),
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 18,
@@ -164,7 +165,7 @@ class FoodLableAnalysisAddToTodayIntakeButton extends StatelessWidget {
         uiProvider.updateCurrentIndex(2);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Added to today\'s intake!'),
+            content: Text('added_to_today_intake'.tr()),
             action: SnackBarAction(
               label: 'VIEW',
               onPressed: () {
@@ -186,7 +187,7 @@ class FoodLableAnalysisAddToTodayIntakeButton extends StatelessWidget {
           Column(
             children: [
               Text(
-                "Add to today's intake",
+                "added_to_today_intake".tr(),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

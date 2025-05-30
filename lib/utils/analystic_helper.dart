@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 
 class AnalysticHelper {
@@ -131,13 +132,29 @@ class AnalysticHelper {
           minimumFetchInterval: const Duration(hours: 1),
         ),
       );
+      final adConfigContent = await _readAdConfigFile();
       await remoteConfig.setDefaults({
         RemoteConfigVariables.geminiKey: Env.defaultGeminiKey,
+        RemoteConfigVariables.adConfig: adConfigContent,
+        RemoteConfigVariables.appReviewVersion: 0,
+        RemoteConfigVariables.interOffsetTime: 30,
+        RemoteConfigVariables.aoaOffsetTime: 30,
+        RemoteConfigVariables.loadAdTimeout: 30,
       });
 
       await remoteConfig.fetchAndActivate();
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  static Future<String> _readAdConfigFile() async {
+    try {
+      final jsonString = await rootBundle.loadString('assets/ad_config.json');
+      return jsonString;
+    } catch (e) {
+      log("Error reading ad_config.json: $e", name: "RemoteConfig");
+      return "[]"; // Trả về mảng rỗng nếu có lỗi
     }
   }
 }

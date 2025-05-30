@@ -1,0 +1,93 @@
+[
+    {
+        "idName": "inter_splash",
+        "idAds": "ca-app-pub-1249320623511529/6929031505",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "inter_splash"
+    },
+    {
+        "idName": "banner_splash",
+        "idAds": "ca-app-pub-1249320623511529/7539998495",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "banner_splash"
+    },
+    {
+        "idName": "native_language_1_1",
+        "idAds": "ca-app-pub-1249320623511529/1557044076",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_language_1_1"
+    },
+    {
+        "idName": "native_language_1_2",
+        "idAds": "ca-app-pub-1249320623511529/6226916829",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_language_1_2"
+    },
+    {
+        "idName": "native_onboarding_fullscreen_1_1",
+        "idAds": "ca-app-pub-1249320623511529/7192755381",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_onboarding_fullscreen_1_1"
+    },
+    {
+        "idName": "native_onboarding_fullscreen_1_2",
+        "idAds": "ca-app-pub-1249320623511529/7025234421",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_onboarding_fullscreen_1_2"
+    },
+    {
+        "idName": "native_user_info",
+        "idAds": "ca-app-pub-1249320623511529/4410663468",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_user_info"
+    },
+    {
+        "idName": "banner_home",
+        "idAds": "ca-app-pub-1249320623511529/4913835157",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "banner_home"
+    },
+    {
+        "idName": "native_home_daily",
+        "idAds": "ca-app-pub-1249320623511529/7299716537",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_home_daily"
+    },
+    {
+        "idName": "inter_scan_done",
+        "idAds": "ca-app-pub-1249320623511529/5986634861",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "inter_scan_done"
+    },
+    {
+        "idName": "native_result",
+        "idAds": "ca-app-pub-1249320623511529/5879673710",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "native_result"
+    },
+    {
+        "idName": "inter_back",
+        "idAds": "ca-app-pub-1249320623511529/5712152755",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "inter_back"
+    },
+    {
+        "idName": "open_resume",
+        "idAds": "ca-app-pub-1249320623511529/4673553199",
+        "idAdsDebug": "",
+        "status": true,
+        "placement_ads": "open_resume"
+    }
+]

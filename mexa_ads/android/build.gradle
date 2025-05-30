@@ -1,0 +1,125 @@
+group 'com.mexa.mexa_ads'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea'
+        }
+        maven {
+            url 'https://artifact.bytedance.com/repository/pangle/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea'
+        }
+        maven {
+            url 'https://artifact.bytedance.com/repository/pangle/'
+        }
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.mexa.mexa_ads'
+    }
+
+    compileSdkVersion 34
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+    }
+
+    dependencies {
+        testImplementation 'org.jetbrains.kotlin:kotlin-test'
+        testImplementation 'org.mockito:mockito-core:5.0.0'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            // keyAlias keystoreProperties['keyAlias']
+            // keyPassword keystoreProperties['keyPassword']
+            // storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            // storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            resValue("string", "banner_collapsible_id", "")
+        }
+
+        debug {
+            resValue("string", "banner_collapsible_id", "ca-app-pub-3940256099942544/2014213617")
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    //adjust sdk 
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.1.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+
+    //network interation 
+    implementation  'com.google.android.gms:play-services-ads:23.6.0'
+    implementation  'com.google.ads.mediation:applovin:13.0.1.1'
+    implementation  'com.google.ads.mediation:vungle:7.4.3.0'
+    implementation  'com.google.ads.mediation:facebook:6.18.0.0'
+    implementation  'com.google.ads.mediation:mintegral:16.8.61.0'
+    implementation  'com.unity3d.ads:unity-ads:4.13.0'
+    implementation  'com.google.ads.mediation:unity:4.13.0.0'
+    implementation  'com.google.ads.mediation:pangle:6.4.0.6.0'
+    implementation  'com.google.ads.mediation:ironsource:8.6.1.0'
+}

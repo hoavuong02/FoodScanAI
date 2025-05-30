@@ -10,8 +10,20 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
+import 'package:lottie/lottie.dart' as _lottie;
 import 'package:rive/rive.dart' as _rive;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
+
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/anim_loading.json
+  LottieGenImage get animLoading =>
+      const LottieGenImage('assets/animations/anim_loading.json');
+
+  /// List of all assets
+  List<LottieGenImage> get values => [animLoading];
+}
 
 class $AssetsFontsGen {
   const $AssetsFontsGen();
@@ -125,6 +137,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_chatbot.svg
   SvgGenImage get icChatbot => const SvgGenImage('assets/icons/ic_chatbot.svg');
 
+  /// File path: assets/icons/ic_check.svg
+  SvgGenImage get icCheck => const SvgGenImage('assets/icons/ic_check.svg');
+
   /// File path: assets/icons/ic_daily_intake.svg
   SvgGenImage get icDailyIntake =>
       const SvgGenImage('assets/icons/ic_daily_intake.svg');
@@ -132,11 +147,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_edit.svg
   SvgGenImage get icEdit => const SvgGenImage('assets/icons/ic_edit.svg');
 
+  /// File path: assets/icons/ic_england.svg
+  SvgGenImage get icEngland => const SvgGenImage('assets/icons/ic_england.svg');
+
   /// File path: assets/icons/ic_fat.svg
   SvgGenImage get icFat => const SvgGenImage('assets/icons/ic_fat.svg');
 
   /// File path: assets/icons/ic_fiber.svg
   SvgGenImage get icFiber => const SvgGenImage('assets/icons/ic_fiber.svg');
+
+  /// File path: assets/icons/ic_france.svg
+  SvgGenImage get icFrance => const SvgGenImage('assets/icons/ic_france.svg');
 
   /// File path: assets/icons/ic_gallery.svg
   SvgGenImage get icGallery => const SvgGenImage('assets/icons/ic_gallery.svg');
@@ -144,11 +165,24 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_good.svg
   SvgGenImage get icGood => const SvgGenImage('assets/icons/ic_good.svg');
 
+  /// File path: assets/icons/ic_india.svg
+  SvgGenImage get icIndia => const SvgGenImage('assets/icons/ic_india.svg');
+
+  /// File path: assets/icons/ic_indonesian.svg
+  SvgGenImage get icIndonesian =>
+      const SvgGenImage('assets/icons/ic_indonesian.svg');
+
   /// File path: assets/icons/ic_info.svg
   SvgGenImage get icInfo => const SvgGenImage('assets/icons/ic_info.svg');
 
   /// File path: assets/icons/ic_iron.svg
   SvgGenImage get icIron => const SvgGenImage('assets/icons/ic_iron.svg');
+
+  /// File path: assets/icons/ic_japan.svg
+  SvgGenImage get icJapan => const SvgGenImage('assets/icons/ic_japan.svg');
+
+  /// File path: assets/icons/ic_korea.svg
+  SvgGenImage get icKorea => const SvgGenImage('assets/icons/ic_korea.svg');
 
   /// File path: assets/icons/ic_langauge.svg
   SvgGenImage get icLangauge =>
@@ -175,6 +209,9 @@ class $AssetsIconsGen {
   SvgGenImage get icRateApp =>
       const SvgGenImage('assets/icons/ic_rate_app.svg');
 
+  /// File path: assets/icons/ic_russia.svg
+  SvgGenImage get icRussia => const SvgGenImage('assets/icons/ic_russia.svg');
+
   /// File path: assets/icons/ic_scan.svg
   SvgGenImage get icScan => const SvgGenImage('assets/icons/ic_scan.svg');
 
@@ -198,12 +235,18 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_sodium.svg
   SvgGenImage get icSodium => const SvgGenImage('assets/icons/ic_sodium.svg');
 
+  /// File path: assets/icons/ic_spain.svg
+  SvgGenImage get icSpain => const SvgGenImage('assets/icons/ic_spain.svg');
+
   /// File path: assets/icons/ic_star.svg
   SvgGenImage get icStar => const SvgGenImage('assets/icons/ic_star.svg');
 
   /// File path: assets/icons/ic_star_non.svg
   SvgGenImage get icStarNon =>
       const SvgGenImage('assets/icons/ic_star_non.svg');
+
+  /// File path: assets/icons/ic_vietnam.svg
+  SvgGenImage get icVietnam => const SvgGenImage('assets/icons/ic_vietnam.svg');
 
   /// File path: assets/icons/ic_vitamin.svg
   SvgGenImage get icVitamin => const SvgGenImage('assets/icons/ic_vitamin.svg');
@@ -233,14 +276,21 @@ class $AssetsIconsGen {
     icCamera,
     icCarbonHydrates,
     icChatbot,
+    icCheck,
     icDailyIntake,
     icEdit,
+    icEngland,
     icFat,
     icFiber,
+    icFrance,
     icGallery,
     icGood,
+    icIndia,
+    icIndonesian,
     icInfo,
     icIron,
+    icJapan,
+    icKorea,
     icLangauge,
     icLauncher,
     icLauncherForeground,
@@ -248,6 +298,7 @@ class $AssetsIconsGen {
     icPrivacy,
     icProtein,
     icRateApp,
+    icRussia,
     icScan,
     icScanFood,
     icScanLable,
@@ -255,8 +306,10 @@ class $AssetsIconsGen {
     icSetting,
     icShare,
     icSodium,
+    icSpain,
     icStar,
     icStarNon,
+    icVietnam,
     icVitamin,
     icWarning,
     iosLauncher,
@@ -317,17 +370,47 @@ class $AssetsRiveAssetsGen {
   List<RiveGenImage> get values => [aiGenerateLoading, qrCodeScanner];
 }
 
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
+
+  /// File path: assets/translations/en-US.json
+  String get enUS => 'assets/translations/en-US.json';
+
+  /// File path: assets/translations/es.json
+  String get es => 'assets/translations/es.json';
+
+  /// File path: assets/translations/hi.json
+  String get hi => 'assets/translations/hi.json';
+
+  /// File path: assets/translations/id.json
+  String get id => 'assets/translations/id.json';
+
+  /// File path: assets/translations/ja.json
+  String get ja => 'assets/translations/ja.json';
+
+  /// File path: assets/translations/ko.json
+  String get ko => 'assets/translations/ko.json';
+
+  /// File path: assets/translations/vi.json
+  String get vi => 'assets/translations/vi.json';
+
+  /// List of all assets
+  List<String> get values => [enUS, es, hi, id, ja, ko, vi];
+}
+
 class Assets {
   const Assets._();
 
-  static const String aEnv = '.env';
+  static const String adConfig = 'assets/ad_config.json';
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsRiveAssetsGen riveAssets = $AssetsRiveAssetsGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 
   /// List of all assets
-  static List<String> get values => [aEnv];
+  static List<String> get values => [adConfig];
 }
 
 class AssetGenImage {
@@ -502,6 +585,73 @@ class RiveGenImage {
       useArtboardSize: useArtboardSize,
       controllers: controllers,
       onInit: onInit,
+    );
+  }
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
+}
+
+class LottieGenImage {
+  const LottieGenImage(this._assetName, {this.flavors = const {}});
+
+  final String _assetName;
+  final Set<String> flavors;
+
+  _lottie.LottieBuilder lottie({
+    Animation<double>? controller,
+    bool? animate,
+    _lottie.FrameRate? frameRate,
+    bool? repeat,
+    bool? reverse,
+    _lottie.LottieDelegates? delegates,
+    _lottie.LottieOptions? options,
+    void Function(_lottie.LottieComposition)? onLoaded,
+    _lottie.LottieImageProviderFactory? imageProviderFactory,
+    Key? key,
+    AssetBundle? bundle,
+    Widget Function(BuildContext, Widget, _lottie.LottieComposition?)?
+    frameBuilder,
+    ImageErrorWidgetBuilder? errorBuilder,
+    double? width,
+    double? height,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    String? package,
+    bool? addRepaintBoundary,
+    FilterQuality? filterQuality,
+    void Function(String)? onWarning,
+    _lottie.LottieDecoder? decoder,
+    _lottie.RenderCache? renderCache,
+    bool? backgroundLoading,
+  }) {
+    return _lottie.Lottie.asset(
+      _assetName,
+      controller: controller,
+      animate: animate,
+      frameRate: frameRate,
+      repeat: repeat,
+      reverse: reverse,
+      delegates: delegates,
+      options: options,
+      onLoaded: onLoaded,
+      imageProviderFactory: imageProviderFactory,
+      key: key,
+      bundle: bundle,
+      frameBuilder: frameBuilder,
+      errorBuilder: errorBuilder,
+      width: width,
+      height: height,
+      fit: fit,
+      alignment: alignment,
+      package: package,
+      addRepaintBoundary: addRepaintBoundary,
+      filterQuality: filterQuality,
+      onWarning: onWarning,
+      decoder: decoder,
+      renderCache: renderCache,
+      backgroundLoading: backgroundLoading,
     );
   }
 

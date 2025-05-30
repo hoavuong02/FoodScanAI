@@ -5,6 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/theme/app_theme.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/views/common/primary_appbar.dart';
 
 class AiChatPage extends StatefulWidget {
@@ -54,11 +55,27 @@ class _AiChatPageState extends State<AiChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PrimaryAppBar(title: "Chat with AI"),
-      body: !_isProviderInitialized
-          ? const Center(child: CircularProgressIndicator())
-          : _buildChatSection(),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          showInterAds(
+            placement: AdPlacement.interBack,
+            function: () {
+              Navigator.pop(context);
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: const PrimaryAppBar(
+          title: "Chat with AI",
+          showInterBack: true,
+        ),
+        body: !_isProviderInitialized
+            ? const Center(child: CircularProgressIndicator())
+            : _buildChatSection(),
+      ),
     );
   }
 

@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/product_analysis_view_model.dart';
 import 'package:read_the_label/views/common/primary_button.dart';
 import 'package:read_the_label/views/screens/scan_lable/scan_lable_result.dart';
@@ -33,7 +36,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
           ),
           const SizedBox(height: 48),
           Text(
-            'To Get Started, Scan Product Front Or\nChoose From Gallery!',
+            'to_get_started_scan_product'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
@@ -44,7 +47,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
           ),
           const SizedBox(height: 32),
           PrimaryButton(
-            text: 'Scan Now',
+            text: 'scan_now'.tr(),
             onPressed: () => _handleImageCapture(ImageSource.camera),
             iconPath: Assets.icons.icScan.path,
             backgroundColor: Theme.of(context).colorScheme.primary,
@@ -54,7 +57,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
           const SizedBox(height: 16),
           PrimaryButton(
             width: 240,
-            text: 'Gallery',
+            text: 'gallery'.tr(),
             onPressed: () => _handleImageCapture(ImageSource.gallery),
             iconPath: Assets.icons.icGallery.path,
             backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -94,11 +97,16 @@ class _ProductScanPageState extends State<ProductScanPage> {
       isFrontImage: false,
     );
     if (productAnalysisProvider.canAnalyze()) {
-      Navigator.push(
-          navKey.currentContext!,
-          MaterialPageRoute(
-            builder: (context) => const ScanLableResultPage(),
-          ));
+      showInterAds(
+        placement: AdPlacement.interScanDone,
+        function: () {
+          Navigator.push(
+              navKey.currentContext!,
+              MaterialPageRoute(
+                builder: (context) => const ScanLableResultPage(),
+              ));
+        },
+      );
     }
   }
 
@@ -116,7 +124,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Now capture nutrition label',
+              'now_capture_nutrition_label'.tr(),
               style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 18,
@@ -127,7 +135,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
               height: 8,
             ),
             Text(
-              'Please capture or select the nutrition facts label of the product',
+              'capture_or_select_nutrion_lable'.tr(),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 fontFamily: 'Poppins',
@@ -143,8 +151,8 @@ class _ProductScanPageState extends State<ProductScanPage> {
               children: [
                 Expanded(
                   child: PrimaryButton(
-                    text: 'Camera',
-                    textStyle: TextStyle(fontSize: 12),
+                    text: 'camera'.tr(),
+                    textStyle: const TextStyle(fontSize: 12),
                     onPressed: () {
                       Navigator.pop(context);
                       imageCapture(
@@ -159,8 +167,8 @@ class _ProductScanPageState extends State<ProductScanPage> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: PrimaryButton(
-                    text: 'Gallery',
-                    textStyle: TextStyle(fontSize: 12),
+                    text: 'gallery'.tr(),
+                    textStyle: const TextStyle(fontSize: 12),
                     onPressed: () {
                       Navigator.pop(context);
                       imageCapture(

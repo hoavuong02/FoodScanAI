@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:read_the_label/core/constants/constans.dart';
 
 class Utils {
   static PackageInfo? packageInfo;
@@ -28,8 +30,11 @@ class Utils {
     return currentVersionCode;
   }
 
-  static Future<bool> isAppInReview(String remoteVersion) async {
+  static Future<bool> isAppInReview() async {
     final String currentVersion = await getAppVersionCode();
+    final String remoteVersion = FirebaseRemoteConfig.instance
+        .getInt(RemoteConfigVariables.appReviewVersion)
+        .toString();
 
     return currentVersion == remoteVersion;
   }

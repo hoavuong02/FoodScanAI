@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/theme/app_colors.dart';
 import 'package:read_the_label/theme/app_theme.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/meal_analysis_view_model.dart';
 import 'package:read_the_label/views/common/primary_appbar.dart';
 
@@ -104,16 +105,32 @@ class _AskAiPageState extends State<AskAiPage> {
   Widget build(BuildContext context) {
     _updateProviderIfNeeded();
 
-    return Scaffold(
-      appBar: const PrimaryAppBar(title: "Ask AI"),
-      body: !_isProviderInitialized
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                _buildFoodImageSection(),
-                Expanded(child: _buildChatSection()),
-              ],
-            ),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          showInterAds(
+            placement: AdPlacement.interBack,
+            function: () {
+              Navigator.pop(context);
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: const PrimaryAppBar(
+          title: "Ask AI",
+          showInterBack: true,
+        ),
+        body: !_isProviderInitialized
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  _buildFoodImageSection(),
+                  Expanded(child: _buildChatSection()),
+                ],
+              ),
+      ),
     );
   }
 

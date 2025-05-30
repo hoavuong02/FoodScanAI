@@ -61,10 +61,14 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-           
+            resValue("string", "admob_id", "ca-app-pub-6691965685689933~3663592036")
+            resValue("string", "facebook_app_id", " 2431713090538342")
+            resValue("string", "facebook_client_token", "599efdfa2e35f8e7f47e5954885f4342")
         }
         debug {
-            
+            resValue("string", "admob_id", "ca-app-pub-1249320623511529~1541807604")
+            resValue("string", "facebook_app_id", " 2431713090538342")
+            resValue("string", "facebook_client_token", "599efdfa2e35f8e7f47e5954885f4342")
         }
     }
 }

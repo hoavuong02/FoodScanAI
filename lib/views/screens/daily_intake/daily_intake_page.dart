@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mexa_ads/mexa_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:read_the_label/core/constants/constans.dart';
+import 'package:read_the_label/models/id_ads_model.dart';
 import 'package:read_the_label/models/user_info.dart';
 import 'package:read_the_label/repositories/storage_repository.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/daily_intake_view_model.dart';
 import 'package:read_the_label/views/screens/ai_chat/ai_chat_page.dart';
 import 'package:read_the_label/views/widgets/ask_ai_widget.dart';
@@ -97,6 +101,11 @@ class _DailyIntakePageState extends State<DailyIntakePage> {
                   });
                 },
               ),
+              if (AdsConfig.getStatusAds(AdPlacement.nativeHomeDaily))
+                const MexaNativeAd(
+                  placement: AdPlacement.nativeHomeDaily,
+                  layout: NativeAdSize.noMedia2,
+                ),
               const TitleSectionWidget(
                 title: "Daily Nutrition",
               ),
