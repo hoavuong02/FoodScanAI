@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:read_the_label/theme/app_colors.dart';
 import 'package:read_the_label/theme/app_theme.dart';
@@ -19,12 +20,12 @@ class _AskAiWidgetState extends State<AskAiWidget>
   static const Duration _animationDuration = Duration(seconds: 4);
   static const Duration _pauseDuration = Duration(seconds: 2);
 
-  final List<String> _suggestions = const [
-    'What nutrients does this food contain?',
-    'Is this food healthy for me?',
-    'How many calories in this serving?',
-    'What are the health benefits?',
-    'Any allergens I should know about?',
+  final List<String> _suggestions = [
+    "suggession_widget_1".tr(),
+    "suggession_widget_2".tr(),
+    "suggession_widget_3".tr(),
+    "suggession_widget_4".tr(),
+    "suggession_widget_5".tr(),
   ];
 
   @override

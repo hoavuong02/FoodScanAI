@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
@@ -48,6 +49,7 @@ class _AiChatPageState extends State<AiChatPage> {
         systemInstruction: Content.system('''
           You are a helpful friendly assistant specialized in providing nutritional information and guidance about food and health.
           Answer questions clearly and keep responses concise. Use emojis to make the text more user-friendly and engaging.
+          By default, respond in "${context.locale.languageCode}" unless the user explicitly requests a different language in their message.
         '''),
       ),
     );
@@ -68,8 +70,8 @@ class _AiChatPageState extends State<AiChatPage> {
         }
       },
       child: Scaffold(
-        appBar: const PrimaryAppBar(
-          title: "Chat with AI",
+        appBar: PrimaryAppBar(
+          title: "chat_with_AI".tr(),
           showInterBack: true,
         ),
         body: !_isProviderInitialized
@@ -82,8 +84,7 @@ class _AiChatPageState extends State<AiChatPage> {
   Widget _buildChatSection() {
     return LlmChatView(
       provider: _provider,
-      welcomeMessage:
-          "👋 Hello! I'm your nutrition and health assistant. How can I help you today? 🍎",
+      welcomeMessage: "welcome_message".tr(),
       style: _buildChatViewStyle(),
     );
   }
