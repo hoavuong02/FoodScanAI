@@ -214,8 +214,12 @@ class _SplashScreenState extends State<SplashScreen> {
               if (AdsConfig.getStatusAds(AdPlacement.bannerSplash))
                 const SizedBox(
                     height: 100,
-                    child: BannerAnchorAdWidget(
-                        placement: AdPlacement.bannerSplash)),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          BannerAnchorAdWidget(
+                              placement: AdPlacement.bannerSplash)
+                        ])),
             ],
           ),
         ],
