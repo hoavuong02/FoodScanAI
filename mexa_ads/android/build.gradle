@@ -2,7 +2,7 @@ group 'com.mexa.mexa_ads'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '2.1.10'
     repositories {
         google()
         mavenCentral()
@@ -113,13 +113,13 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:2.2'
 
     //network interation 
-    implementation  'com.google.android.gms:play-services-ads:23.6.0'
-    implementation  'com.google.ads.mediation:applovin:13.0.1.1'
-    implementation  'com.google.ads.mediation:vungle:7.4.3.0'
-    implementation  'com.google.ads.mediation:facebook:6.18.0.0'
-    implementation  'com.google.ads.mediation:mintegral:16.8.61.0'
+    implementation  'com.google.android.gms:play-services-ads:24.3.0'
+    implementation  'com.google.ads.mediation:applovin:13.2.0.1'
+    implementation  'com.google.ads.mediation:vungle:7.5.0.0'
+    implementation  'com.google.ads.mediation:facebook:6.20.0.0'
+    implementation  'com.google.ads.mediation:mintegral:16.9.71.0'
     implementation  'com.unity3d.ads:unity-ads:4.13.0'
-    implementation  'com.google.ads.mediation:unity:4.13.0.0'
-    implementation  'com.google.ads.mediation:pangle:6.4.0.6.0'
-    implementation  'com.google.ads.mediation:ironsource:8.6.1.0'
+    implementation  'com.google.ads.mediation:unity:4.14.2.0'
+    implementation  'com.google.ads.mediation:pangle:7.1.0.8.0'
+    implementation  'com.google.ads.mediation:ironsource:8.8.0.1'
 }

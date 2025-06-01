@@ -1,0 +1,2 @@
+C:/Flutter Project/Draw-Animation/package/mexa_ads/example/android/app/.cxx/Debug/42375v65/x86_64/CMakeFiles/edit_cache.dir
+C:/Flutter Project/Draw-Animation/package/mexa_ads/example/android/app/.cxx/Debug/42375v65/x86_64/CMakeFiles/rebuild_cache.dir

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mexa_ads/ad_controller.dart';
 import 'package:mexa_ads/app_open_ad_controller.dart';
+import 'package:mexa_ads/banner_ad_manager.dart';
 import 'package:mexa_ads/consent_manager.dart';
 import 'package:mexa_ads/inters_ad_controller.dart';
 import 'package:mexa_ads/rewarded_ad_controller.dart';
@@ -423,6 +424,7 @@ class MexaAds {
   }
 
   NativeAdManager nativeAdManager = NativeAdManager();
+  BannerAdManager bannerAdManager = BannerAdManager();
 
   Future<bool> preloadNative(
       {required String placement,
@@ -862,9 +864,8 @@ class NativeAdManager {
         );
       },
       onPaidEvent: (ad, valueMicros, precision, currencyCode) {
-        print(
-            '.............. NativeAd onPaidEvent placement: $placement id ad: ${ad.adUnitId}');
-
+        logger(
+            '.............. NativeAd onPaidEvent ${'$valueMicros $precision'}');
         onRevenuePaid?.call(
             ad, valueMicros, precision, currencyCode, AdType.native);
 
