@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_generative_ai: ^0.4.6
   image_picker: ^1.1.2
-  shared_preferences: ^2.3.3
+  shared_preferences: "2.2.2"
   percent_indicator: ^4.2.4
   intl: "0.19.0"
   rive: ^0.13.20
