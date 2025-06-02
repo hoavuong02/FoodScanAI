@@ -40,8 +40,7 @@ Future<void> main() async {
   await AnalysticHelper.instance.initialize();
   AdsConfig.initAdsModels();
   isAppInReview = await Utils.isAppInReview();
-  await AdServiceHelper.instance
-      .initializeAdService(onAdInitialized: (success) {});
+
   runApp(
     EasyLocalization(
         supportedLocales: supportedLocales,
@@ -80,7 +79,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         final callAoaResume = AdsConfig.getStatusAds(AdPlacement.openResume);
         if (isAppHiden &&
             callAoaResume &&
-            // !disableAOA &&
+            !disableAOA &&
             navKey.currentContext != null &&
             !isInOnboard) {
           MexaAds.instance.loadAndShowAppOpenAd(

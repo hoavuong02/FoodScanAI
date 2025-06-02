@@ -40,7 +40,7 @@ dependencies:
   shared_preferences: "2.2.2"
   percent_indicator: ^4.2.4
   intl: "0.19.0"
-  rive: ^0.13.20
+  # rive: ^0.13.20
   flutter_launcher_icons: ^0.14.2
   shimmer: ^3.0.0
   path_provider: ^2.1.5
@@ -94,7 +94,7 @@ flutter_gen:
   integrations:
     image: true
     flutter_svg: true
-    rive: true
+    # rive: true
     lottie: true
 
 flutter:

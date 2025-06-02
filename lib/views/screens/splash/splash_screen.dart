@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mexa_ads/banner_anchor_ad_widget.dart';
 import 'package:mexa_ads/mexa_ads.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:read_the_label/gen/assets.gen.dart';
 import 'package:read_the_label/models/id_ads_model.dart';
 import 'package:read_the_label/repositories/storage_repository.dart';
 import 'package:read_the_label/theme/app_colors.dart';
+import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/views/common/primary_svg_picture.dart';
 import 'package:read_the_label/views/screens/home/home_page.dart';
 import 'package:read_the_label/views/screens/language/language_screen.dart';
@@ -23,6 +25,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late final bool showLanguage;
   late final bool showOnboarding;
+  bool isInitedAdService = false;
 
   @override
   void initState() {
@@ -36,7 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
       showLanguage = context.read<StorageRepository>().isShowLanguage();
       showOnboarding = context.read<StorageRepository>().isShowOnboarding();
     }
-    _handleAds();
+    await AdServiceHelper.instance.initializeAdService(
+        onAdInitialized: (success) {
+      setState(() {
+        isInitedAdService = true;
+      });
+      _handleAds();
+    });
+    AssetLottie(Assets.animations.animScan.path).load();
   }
 
   Future<void> _checkUserAndNavigate() async {
@@ -211,7 +221,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   )),
               const SizedBox(height: 80),
-              if (AdsConfig.getStatusAds(AdPlacement.bannerSplash))
+              if (AdsConfig.getStatusAds(AdPlacement.bannerSplash) &&
+                  isInitedAdService)
                 const SizedBox(
                     height: 100,
                     child: Column(

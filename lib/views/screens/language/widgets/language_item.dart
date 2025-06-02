@@ -1,10 +1,6 @@
-import 'dart:developer';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:read_the_label/core/constants/enum.dart';
-import 'package:read_the_label/main.dart';
 import 'package:read_the_label/theme/app_colors.dart';
 
 class LanguageItem extends StatelessWidget {
@@ -34,13 +30,13 @@ class LanguageItem extends StatelessWidget {
             color: Colors.white, borderRadius: BorderRadius.circular(14)),
         child: InkWell(
           onTap: () async {
-            try {
-              await context.setLocale(supportedLocales
-                  .where((element) => element.languageCode == index)
-                  .first);
-            } catch (e) {
-              log(e.toString());
-            }
+            // try {
+            //   await context.setLocale(supportedLocales
+            //       .where((element) => element.languageCode == index)
+            //       .first);
+            // } catch (e) {
+            //   log(e.toString());
+            // }
             onTap.call(index);
           },
           child: Row(
@@ -62,21 +58,43 @@ class LanguageItem extends StatelessWidget {
                   style: const TextStyle(color: Colors.black, fontSize: 14),
                 ),
               ),
-              Radio(
-                value: index,
-                groupValue: groupIndex,
-                activeColor: AppColors.primary,
-                onChanged: (value) async {
-                  await context.setLocale(supportedLocales
-                      .where((element) => element.languageCode == index)
-                      .first);
-                  onTap.call(value!);
-                },
+              StatusIndicator(
+                isSelected: index == groupIndex,
               )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class StatusIndicator extends StatelessWidget {
+  final bool isSelected;
+  const StatusIndicator({super.key, required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 20,
+      height: 20,
+      padding: const EdgeInsets.all(3),
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: isSelected ? AppColors.primary : Colors.grey,
+          width: 2,
+        ),
+      ),
+      child: isSelected
+          ? Container(
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+            )
+          : const SizedBox.shrink(),
     );
   }
 }
