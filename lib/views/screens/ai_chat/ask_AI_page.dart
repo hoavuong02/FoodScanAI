@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
@@ -95,8 +96,8 @@ class _AskAiPageState extends State<AskAiPage> {
           $nutritionContext
           
           Base your answers on this specific nutritional data when discussing this meal.
-            Answer questions clearly, with relevant icons, and keep responses concise. Use emojis to make the text more user-friendly and engaging.
-        '''),
+          Answer questions clearly, with relevant icons, and keep responses concise. Use emojis to make the text more user-friendly and engaging.
+          By default, respond in "${context.locale.languageCode}" unless the user explicitly requests a different language in their message.        '''),
       ),
     );
   }
@@ -118,8 +119,8 @@ class _AskAiPageState extends State<AskAiPage> {
         }
       },
       child: Scaffold(
-        appBar: const PrimaryAppBar(
-          title: "Ask AI",
+        appBar: PrimaryAppBar(
+          title: "ask_AI".tr(),
           showInterBack: true,
         ),
         body: !_isProviderInitialized
@@ -203,16 +204,16 @@ class _AskAiPageState extends State<AskAiPage> {
 
   Widget _buildChatSection() {
     return LlmChatView(
-      suggestions: const [
-        '🍽️ Is this meal balanced?',
-        '🍊 Is this meal rich in vitamins?',
-        '🏋️‍♂️ Is this meal good for weight loss?',
-        '💪 How does this meal support muscle growth?',
-        '🌟 What are the health benefits of this meal?',
+      suggestions: [
+        "suggestions_1".tr(),
+        "suggestions_2".tr(),
+        "suggestions_3".tr(),
+        "suggestions_4".tr(),
+        "suggestions_5".tr(),
       ],
       provider: _provider,
       welcomeMessage:
-          "👋 Hello, what would you like to know about $_currentMealName? 🍽️",
+          "${"what_would_you_like_to_know_about".tr()} $_currentMealName? 🍽️",
       style: _buildChatViewStyle(),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mexa_ads/mexa_ads.dart';
@@ -5,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/core/extensions/view_ext.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/main.dart';
 import 'package:read_the_label/repositories/storage_repository.dart';
 import 'package:read_the_label/theme/app_colors.dart';
 import 'package:read_the_label/utils/ad_service_helper.dart';
@@ -32,6 +35,7 @@ class LanguageScreen extends StatefulWidget {
 
 class _LanguageScreenState extends State<LanguageScreen> {
   String groupIndex = '';
+  bool isSelectedLanguage = false;
 
   List<LanguageItemModel> languageList = configLanguage;
 
@@ -92,7 +96,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         actions: [
           if (groupIndex != "")
             IconButton(
-                onPressed: () {
+                onPressed: () async {
                   if (widget.type == "back") {
                     Navigator.pop(context);
                   } else {
@@ -106,6 +110,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       );
                       return;
                     }
+                    try {
+                      await context.setLocale(supportedLocales
+                          .where(
+                              (element) => element.languageCode == groupIndex)
+                          .first);
+                    } catch (e) {
+                      log(e.toString());
+                    }
+                    if (!context.mounted) return;
                     context.read<StorageRepository>().setShowLanguage();
                     Navigator.pushReplacement(
                         context,
@@ -139,6 +152,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           setState(() {
                             groupIndex = value;
                           });
+                          if (!isSelectedLanguage) {
+                            isSelectedLanguage = true;
+                          }
                         },
                         index: item.index,
                         groupIndex: groupIndex,
@@ -163,7 +179,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               )
             : const SizedBox(),
         Visibility(
-            visible: groupIndex == "",
+            visible: isSelectedLanguage,
             child: AdsConfig.getStatusAds(AdPlacement.nativeLanguage1_1)
                 ? const MexaNativeAd(
                     placement: AdPlacement.nativeLanguage1_1,

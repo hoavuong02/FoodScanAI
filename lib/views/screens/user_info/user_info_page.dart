@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mexa_ads/mexa_ads.dart';
 import 'package:provider/provider.dart';
@@ -133,15 +134,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TitleSectionWidget(
-                    title: 'User Information',
+                  TitleSectionWidget(
+                    title: 'user_information'.tr(),
                     padding: EdgeInsets.zero,
                   ),
                   const SizedBox(height: 20),
                   _buildTextField(
-                      label: 'Your Name',
+                      label: 'your_name'.tr(),
                       controller: _nameController,
-                      hintText: "Enter your name"),
+                      hintText: "enter_your_name".tr()),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -149,9 +150,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Gender',
-                              style: TextStyle(
+                            Text(
+                              'gender'.tr(),
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black87,
                                 fontFamily: 'Poppins',
@@ -160,8 +161,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                _buildGenderButton('Male'),
-                                _buildGenderButton('Female'),
+                                _buildGenderButton("Male"),
+                                _buildGenderButton("Female"),
                               ],
                             ),
                           ],
@@ -170,7 +171,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       const SizedBox(width: 20),
                       Expanded(
                         child: _buildTextField(
-                            label: 'Age',
+                            label: 'age'.tr(),
                             controller: _ageController,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number),
@@ -182,7 +183,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     children: [
                       Expanded(
                         child: _buildTextField(
-                            label: 'Height',
+                            label: 'height'.tr(),
                             controller: _heightController,
                             textAlign: TextAlign.center,
                             hintText: "cm",
@@ -191,7 +192,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       const SizedBox(width: 20),
                       Expanded(
                         child: _buildTextField(
-                            label: 'Weight',
+                            label: 'weight'.tr(),
                             controller: _weightController,
                             textAlign: TextAlign.center,
                             hintText: "kg",
@@ -200,8 +201,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     ],
                   ),
                   const SizedBox(height: 32),
-                  const TitleSectionWidget(
-                    title: 'Daily Target',
+                  TitleSectionWidget(
+                    title: 'daily_target'.tr(),
                     padding: EdgeInsets.zero,
                   ),
                   const SizedBox(height: 32),
@@ -345,36 +346,36 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   Widget _buildNutrientInputs() {
     final nutrients = {
-      'Energy': [
-        'Calories',
+      'energy'.tr(): [
+        'calories'.tr(),
         'kcal',
         Assets.icons.icCalories.path,
         _energyController,
         const Color(0xff6BDE36)
       ],
-      'Protein': [
-        'Protein',
+      'protein'.tr(): [
+        'protein'.tr(),
         'g',
         Assets.icons.icProtein.path,
         _proteinController,
         const Color(0xffFFAF40)
       ],
-      'Carbohydrate': [
-        'Carbohydrates',
+      'carbohydrate'.tr(): [
+        'carbohydrates'.tr(),
         'g',
         Assets.icons.icCarbonHydrates.path,
         _carbonHydrateController,
         const Color(0xff6B25F6)
       ],
-      'Fat': [
-        'Fat',
+      'fat'.tr(): [
+        'fat'.tr(),
         'g',
         Assets.icons.icFat.path,
         _fatController,
         const Color(0xffFF3F42)
       ],
-      'Fiber': [
-        'Fiber',
+      'fiber'.tr(): [
+        'fiber'.tr(),
         'g',
         Assets.icons.icFiber.path,
         _fiberController,
@@ -420,10 +421,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
               color: isValid ? AppColors.green : AppColors.grey,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: const Text(
-              'Continue',
+            child: Text(
+              'continue'.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10,
                 fontWeight: FontWeight.w600,

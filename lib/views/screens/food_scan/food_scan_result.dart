@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:mexa_ads/mexa_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
@@ -21,7 +23,6 @@ import 'package:read_the_label/views/widgets/food_item_card_shimmer.dart';
 import 'package:read_the_label/views/widgets/title_section_widget.dart';
 import 'package:read_the_label/views/widgets/total_nutrients_card.dart';
 import 'package:read_the_label/views/widgets/total_nutrients_card_shimmer.dart';
-import 'package:rive/rive.dart' as rive;
 
 class FoodScanResultPage extends StatefulWidget {
   const FoodScanResultPage({super.key});
@@ -43,6 +44,13 @@ class _FoodScanResultPageState extends State<FoodScanResultPage> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    MexaAds.instance.preloadNative(
+        placement: AdPlacement.nativeResult, size: NativeAdSize.layout1);
   }
 
   @override
@@ -92,19 +100,22 @@ class _FoodScanResultPageState extends State<FoodScanResultPage> {
                           ),
                         ),
                         if (uiProvider.loading)
-                          const Positioned.fill(
-                            left: 5,
-                            right: 5,
-                            top: 5,
-                            bottom: 5,
-                            child: rive.RiveAnimation.asset(
-                              'assets/riveAssets/qr_code_scanner.riv',
-                              fit: BoxFit.fill,
-                              artboard: 'scan_board',
-                              animations: ['anim1'],
-                              stateMachines: ['State Machine 1'],
-                            ),
-                          )
+                          Positioned.fill(
+                              left: 5,
+                              right: 5,
+                              top: 5,
+                              bottom: 5,
+                              child: Lottie.asset(
+                                  Assets.animations.animScan.path,
+                                  fit: BoxFit.fill)
+                              // rive.RiveAnimation.asset(
+                              //   'assets/riveAssets/qr_code_scanner.riv',
+                              //   fit: BoxFit.fill,
+                              //   artboard: 'scan_board',
+                              //   animations: ['anim1'],
+                              //   stateMachines: ['State Machine 1'],
+                              // ),
+                              )
                       ],
                     ),
                   ),

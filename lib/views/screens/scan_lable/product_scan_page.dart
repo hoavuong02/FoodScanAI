@@ -92,6 +92,7 @@ class _ProductScanPageState extends State<ProductScanPage> {
   void imageCapture(
       {required ImageSource source,
       required ProductAnalysisViewModel productAnalysisProvider}) async {
+    disableAOA = true;
     await productAnalysisProvider.captureImage(
       source: source,
       isFrontImage: false,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -106,28 +107,28 @@ class _DailyIntakePageState extends State<DailyIntakePage> {
                   placement: AdPlacement.nativeHomeDaily,
                   layout: NativeAdSize.noMedia2,
                 ),
-              const TitleSectionWidget(
-                title: "Daily Nutrition",
+              TitleSectionWidget(
+                title: "daily_nutrition".tr(),
               ),
               MacronutrientSummaryCard(
                 dailyIntake: dailyIntakeProvider.dailyIntake,
                 userInfo: _userInfo,
               ),
               TitleSectionWidget(
-                title: "Today Intake",
+                title: "today_intake".tr(),
                 onTapInfoButton: () {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
                       backgroundColor: Theme.of(context).colorScheme.surface,
-                      title: const Text('Food Items History'),
-                      content: const Text(
-                        'This section shows all the food items you have consumed today, along with their caloric values and timestamps.',
+                      title: Text('food_items_history'.tr()),
+                      content: Text(
+                        'this_section_show_all_food_item_you_have_comsume'.tr(),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Got it'),
+                          child: Text('got_it'.tr()),
                         ),
                       ],
                     ),
@@ -138,8 +139,8 @@ class _DailyIntakePageState extends State<DailyIntakePage> {
                   context: context,
                   currentIndex: 2,
                   selectedDate: _selectedDate),
-              const TitleSectionWidget(
-                title: "Detailed Nutrients",
+              TitleSectionWidget(
+                title: "detailed_nutrients".tr(),
                 // onTapInfoButton: () {
                 //   showDialog(
                 //     context: context,

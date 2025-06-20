@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
 import 'package:read_the_label/utils/utils.dart';
 import 'package:read_the_label/views/common/primary_appbar.dart';
+import 'package:read_the_label/views/screens/language/language_screen.dart';
 import 'package:read_the_label/views/widgets/rating_bottomsheet.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,36 +18,28 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const PrimaryAppBar(title: "Setting"),
+      appBar: PrimaryAppBar(title: "setting".tr()),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            // _buildSettingItem(
-            //   context,
-            //   icon: Assets.icLanguage,
-            //   title: "language",
-            //   trailing: Text(
-            //     context.locale.countryCode != null
-            //         ? "${context.locale.languageCode}_${context.locale.countryCode}"
-            //
-            //         : context.locale.languageCode,
-            //     style: AppTextTheme.blackS14
-            //         .copyWith(color: AppColor.primaryGreen),
-            //   ),
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (_) => const LanguageScreen(isFromSetting: true),
-            //       ),
-            //     );
-            //   },
-            // ),
+            _buildSettingItem(
+              context,
+              icon: Assets.icons.icLangauge.path,
+              title: "language",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const LanguageScreen(type: "back"),
+                  ),
+                );
+              },
+            ),
             _buildSettingItem(
               context,
               icon: Assets.icons.icShare.path,
-              title: "Share App",
+              title: "share_app".tr(),
               onTap: () async {
                 final packageName = await Utils.getAppPackageName();
                 Share.share(
@@ -58,7 +52,7 @@ class SettingScreen extends StatelessWidget {
             _buildSettingItem(
               context,
               icon: Assets.icons.icRateApp.path,
-              title: "Rate App",
+              title: "rate_app".tr(),
               onTap: () {
                 showRatingBottomSheet(context);
               },
@@ -69,7 +63,7 @@ class SettingScreen extends StatelessWidget {
             _buildSettingItem(
               context,
               icon: Assets.icons.icPrivacy.path,
-              title: "Privacy Policy",
+              title: "privacy_policy".tr(),
               onTap: () async {
                 final Uri url = Uri.parse(
                     "https://sites.google.com/view/foodscan-calorieai");

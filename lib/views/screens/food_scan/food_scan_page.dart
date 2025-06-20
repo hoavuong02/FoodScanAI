@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:read_the_label/core/constants/constans.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
+import 'package:read_the_label/main.dart';
 import 'package:read_the_label/utils/ad_service_helper.dart';
 import 'package:read_the_label/viewmodels/meal_analysis_view_model.dart';
 import 'package:read_the_label/views/common/primary_button.dart';
@@ -67,6 +68,7 @@ class FoodScanPage extends StatelessWidget {
   }
 
   void _handleFoodImageCapture(BuildContext context, ImageSource source) async {
+    disableAOA = true;
     final mealAnalysisProvider =
         Provider.of<MealAnalysisViewModel>(context, listen: false);
     final imagePicker = ImagePicker();

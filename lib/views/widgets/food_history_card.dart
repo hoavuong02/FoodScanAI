@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:read_the_label/gen/assets.gen.dart';
 import 'package:read_the_label/theme/app_colors.dart';
@@ -116,9 +116,9 @@ class _FoodHistoryCardState extends State<FoodHistoryCard> {
                     width: 24,
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    "Add Food Item",
-                    style: TextStyle(
+                  Text(
+                    "add_food_item".tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontFamily: 'Poppins',
@@ -167,7 +167,7 @@ class FoodHistoryItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      foodName ?? "No Results Found!",
+                      foodName ?? "no_results_found".tr(),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,

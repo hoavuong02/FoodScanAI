@@ -1,27 +1,29 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mexa_ads/banner_ad_manager.dart';
 import 'package:mexa_ads/mexa_ads.dart';
 import 'package:mexa_ads/utils.dart';
 import 'package:mexa_ads/widget/container_shimmer.dart';
 import 'package:mexa_ads/widget/primary_shimmer.dart';
 
-/// This example demonstrates inline ads in a list view, where the ad objects
-/// live for the lifetime of this widget.
 class BannerAnchorAdWidget extends StatefulWidget {
-  final AdSize? adSize;
   final VoidCallback? onAdLoaded;
   final VoidCallback? onAdFailedToLoad;
   final VoidCallback? onAdClicked;
   final VoidCallback? onAdClosed;
   final String placement;
-  const BannerAnchorAdWidget(
-      {super.key,
-      this.adSize,
-      this.onAdLoaded,
-      this.onAdFailedToLoad,
-      this.onAdClicked,
-      this.onAdClosed,
-      required this.placement});
+  final bool isBottom;
+
+  const BannerAnchorAdWidget({
+    super.key,
+    this.onAdLoaded,
+    this.onAdFailedToLoad,
+    this.onAdClicked,
+    this.onAdClosed,
+    required this.placement,
+    this.isBottom = true,
+  });
 
   @override
   State<BannerAnchorAdWidget> createState() => _BannerAnchorAdWidgetState();
@@ -29,144 +31,160 @@ class BannerAnchorAdWidget extends StatefulWidget {
 
 class _BannerAnchorAdWidgetState extends State<BannerAnchorAdWidget> {
   BannerAd? _bannerAd;
-  bool _bannerAdIsLoaded = false;
-  late final AnchoredAdaptiveBannerAdSize? size;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initBannerAd();
+  }
+
+  void _initBannerAd() async {
+    if (MexaAds.instance.isAdDisable) return;
+
+    BannerAdManager manager = MexaAds.instance.bannerAdManager;
+
+    if (manager.loadingBannerCompleters[widget.placement] != null) {
+      Completer<void>? completer =
+          manager.loadingBannerCompleters[widget.placement];
+
+      if (completer?.isCompleted == false) {
+        logger("Banner: Waiting for preload to complete");
+        completer?.future.then((_) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+          if (mounted) {
+            setState(() {
+              _isLoaded = true;
+              _bannerAd = manager.bannerAds[widget.placement];
+            });
+          }
+          manager.bannerAds.remove(widget.placement);
+          manager.loadingBannerCompleters.remove(widget.placement);
+        }).catchError((error) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+          logger("Banner: Error handling preloaded ad");
+          if (mounted) {
+            _loadAd();
+          }
+        });
+      } else {
+        logger("Banner: Preload completed, updating state");
+        await Future.delayed(const Duration(milliseconds: 100));
+        if (mounted) {
+          setState(() {
+            _isLoaded = true;
+            _bannerAd = manager.bannerAds[widget.placement];
+          });
+        }
+        manager.bannerAds.remove(widget.placement);
+        manager.loadingBannerCompleters.remove(widget.placement);
+      }
+    } else {
+      _loadAd();
+    }
+  }
+
+  void _loadAd() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (!mounted) return;
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      logger('Unable to get banner ad size');
+      return;
+    }
+
+    BannerAd(
+      adUnitId:
+          MexaAds.instance.adConstant.bannerAnchorId[widget.placement] ?? '',
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+          widget.onAdLoaded?.call();
+        },
+        onAdFailedToLoad: (ad, err) {
+          logger('Banner ad failed to load: $err');
+          ad.dispose();
+          widget.onAdFailedToLoad?.call();
+        },
+        onAdClicked: (ad) {
+          widget.onAdClicked?.call();
+        },
+        onAdClosed: (ad) {
+          widget.onAdClosed?.call();
+        },
+      ),
+    ).load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (MexaAds.instance.isAdDisable) return const SizedBox();
-
-    if (_bannerAdIsLoaded && _bannerAd != null) {
-      return SizedBox(
-          width: _bannerAd!.size.width.toDouble(),
-          height: _bannerAd!.size.height.toDouble(),
-          child: AdWidget(ad: _bannerAd!));
+    if (MexaAds.instance.isAdDisable) {
+      return const SizedBox();
     }
-    final tmpAdHeight = AdSize.banner.height.toDouble();
+
+    if (_bannerAd != null && _isLoaded) {
+      return SizedBox(
+        width: _bannerAd!.size.width.toDouble(),
+        height: _bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: _bannerAd!),
+      );
+    }
+
+    return const BannerAdShimmer();
+  }
+}
+
+class BannerAdShimmer extends StatelessWidget {
+  const BannerAdShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      height: tmpAdHeight,
+      height: 50,
       color: Colors.grey[50],
       padding: const EdgeInsets.all(8),
-      child: PrimaryShimmer(
+      child: const PrimaryShimmer(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Ad',
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+            ),
+            SizedBox(width: 8),
             ContainerShimmer(
-              height: tmpAdHeight - 16,
-              width: tmpAdHeight - 16,
+              height: 34,
+              width: 34,
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ContainerShimmer(
-                  width: 200,
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                ContainerShimmer(
-                  width: 240,
-                  height: 10,
-                ),
-              ],
-            ),
-            const Spacer(),
-            const SizedBox(
-              width: 8,
-            ),
-            ContainerShimmer(
-              height: tmpAdHeight - 16,
-              width: tmpAdHeight,
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ContainerShimmer(
+                    width: 200,
+                    height: 16,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        _loadAd();
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _bannerAd?.dispose();
-  }
-
-  void _loadAd() async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    try {
-      if (MexaAds.instance.isAdDisable || !mounted) return;
-      size = widget.adSize == null
-          ? await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-              MediaQuery.of(context).size.width.truncate())
-          : null;
-      _bannerAd = BannerAd(
-        adUnitId:
-            MexaAds.instance.adConstant.bannerAnchorId[widget.placement] ?? '',
-        size: widget.adSize ?? size!,
-        request: const AdRequest(),
-        listener: BannerAdListener(
-          onAdLoaded: (Ad ad) {
-            logger('.............$BannerAd loaded.');
-            setState(() {
-              _bannerAdIsLoaded = true;
-            });
-            widget.onAdLoaded?.call();
-          },
-          onAdClicked: (ad) {
-            widget.onAdClicked?.call();
-            MexaAds.instance.adClickedListener?.call(AdClickedParams(
-              networkName:
-                  ad.responseInfo?.loadedAdapterResponseInfo?.adSourceName ??
-                      '',
-              adUnitId: ad.adUnitId,
-              adType: AdType.banner.value,
-              placement: widget.placement,
-            ));
-          },
-          onAdFailedToLoad: (Ad ad, LoadAdError error) {
-            logger('..............$BannerAd failedToLoad: $error');
-            ad.dispose();
-            widget.onAdFailedToLoad?.call();
-          },
-          onAdOpened: (Ad ad) {
-            logger('..............$BannerAd onAdOpened.');
-            widget.onAdClicked?.call();
-          },
-          onAdClosed: (Ad ad) {
-            logger('..............$BannerAd onAdClosed.');
-            widget.onAdClosed?.call();
-          },
-          onPaidEvent: (ad, valueMicros, precision, currencyCode) {
-            final AdRevenuePaidParams adRevenuePaidParams = AdRevenuePaidParams(
-              networkName:
-                  ad.responseInfo?.loadedAdapterResponseInfo?.adSourceName ??
-                      '',
-              revenue: valueMicros / 1000000.0,
-              adUnitId: ad.adUnitId,
-              adType: AdType.banner.value,
-              placement: widget.placement,
-              country: currencyCode,
-            );
-            MexaAds.instance.logAdjustRevenueEvent(adRevenuePaidParams);
-            MexaAds.instance.adRevenuePaidListener?.call(adRevenuePaidParams);
-          },
-        ),
-      );
-      _bannerAd?.load();
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }

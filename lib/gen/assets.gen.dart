@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:lottie/lottie.dart' as _lottie;
-import 'package:rive/rive.dart' as _rive;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
 class $AssetsAnimationsGen {
@@ -21,8 +20,12 @@ class $AssetsAnimationsGen {
   LottieGenImage get animLoading =>
       const LottieGenImage('assets/animations/anim_loading.json');
 
+  /// File path: assets/animations/anim_scan.json
+  LottieGenImage get animScan =>
+      const LottieGenImage('assets/animations/anim_scan.json');
+
   /// List of all assets
-  List<LottieGenImage> get values => [animLoading];
+  List<LottieGenImage> get values => [animLoading, animScan];
 }
 
 class $AssetsFontsGen {
@@ -359,15 +362,13 @@ class $AssetsRiveAssetsGen {
   const $AssetsRiveAssetsGen();
 
   /// File path: assets/riveAssets/ai_generate_loading.riv
-  RiveGenImage get aiGenerateLoading =>
-      const RiveGenImage('assets/riveAssets/ai_generate_loading.riv');
+  String get aiGenerateLoading => 'assets/riveAssets/ai_generate_loading.riv';
 
   /// File path: assets/riveAssets/qr_code_scanner.riv
-  RiveGenImage get qrCodeScanner =>
-      const RiveGenImage('assets/riveAssets/qr_code_scanner.riv');
+  String get qrCodeScanner => 'assets/riveAssets/qr_code_scanner.riv';
 
   /// List of all assets
-  List<RiveGenImage> get values => [aiGenerateLoading, qrCodeScanner];
+  List<String> get values => [aiGenerateLoading, qrCodeScanner];
 }
 
 class $AssetsTranslationsGen {
@@ -547,44 +548,6 @@ class SvgGenImage {
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
-    );
-  }
-
-  String get path => _assetName;
-
-  String get keyName => _assetName;
-}
-
-class RiveGenImage {
-  const RiveGenImage(this._assetName, {this.flavors = const {}});
-
-  final String _assetName;
-  final Set<String> flavors;
-
-  _rive.RiveAnimation rive({
-    String? artboard,
-    List<String> animations = const [],
-    List<String> stateMachines = const [],
-    BoxFit? fit,
-    Alignment? alignment,
-    Widget? placeHolder,
-    bool antialiasing = true,
-    bool useArtboardSize = false,
-    List<_rive.RiveAnimationController> controllers = const [],
-    _rive.OnInitCallback? onInit,
-  }) {
-    return _rive.RiveAnimation.asset(
-      _assetName,
-      artboard: artboard,
-      animations: animations,
-      stateMachines: stateMachines,
-      fit: fit,
-      alignment: alignment,
-      placeHolder: placeHolder,
-      antialiasing: antialiasing,
-      useArtboardSize: useArtboardSize,
-      controllers: controllers,
-      onInit: onInit,
     );
   }
 
